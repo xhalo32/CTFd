@@ -11,8 +11,9 @@ from sqlalchemy_utils import create_database as create_database_util
 from sqlalchemy_utils import database_exists as database_exists_util
 from sqlalchemy_utils import drop_database as drop_database_util
 
-migrations = Migrate()
+migrations_dir = Path(os.path.dirname(__file__), "../../migrations")
 
+migrations = Migrate(directory=migrations_dir)
 
 def create_database():
     url = make_url(app.config["SQLALCHEMY_DATABASE_URI"])
@@ -48,13 +49,12 @@ def get_current_revision():
 
 def stamp_latest_revision():
     # Get proper migrations directory regardless of cwd
-    directory = os.path.join(os.path.dirname(app.root_path), "migrations")
-    stamp(directory=directory)
+    stamp(directory=migrations_dir)
 
 
 def get_available_revisions():
     revisions = []
-    directory = Path(os.path.dirname(app.root_path), "migrations", "versions")
+    directory = Path(migrations_dir, "versions")
     for f in directory.glob("*.py"):
         with f.open() as migration:
             revision = re.search(r'revision = "(.*?)"', migration.read()).group(1)

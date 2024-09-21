@@ -76,8 +76,8 @@ def gen_secret_key():
 
 config_ini = configparser.ConfigParser(interpolation=EnvInterpolation())
 config_ini.optionxform = str  # Makes the key value case-insensitive
-path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.ini")
-config_ini.read(path)
+with open("config.ini") as f:
+    config_ini.read_file(f)
 
 
 # fmt: off
@@ -98,8 +98,8 @@ class ServerConfig(object):
                 database=empty_str_cast(config_ini["server"]["DATABASE_NAME"]) or "ctfd",
             ))
         else:
-            # default to local SQLite DB
-            DATABASE_URL = f"sqlite:///{os.path.dirname(os.path.abspath(__file__))}/ctfd.db"
+            # default to local SQLite DB in current directory
+            DATABASE_URL = f"sqlite:///{os.getcwd()}/ctfd.db"
 
     REDIS_URL: str = empty_str_cast(config_ini["server"]["REDIS_URL"])
 
@@ -127,7 +127,7 @@ class ServerConfig(object):
     else:
         CACHE_TYPE: str = "filesystem"
         CACHE_DIR: str = os.path.join(
-            os.path.dirname(__file__), os.pardir, ".data", "filesystem_cache"
+            ".data", "filesystem_cache"
         )
         # Override the threshold of cached values on the filesystem. The default is 500. Don't change unless you know what you're doing.
         CACHE_THRESHOLD: int = 0
@@ -193,14 +193,14 @@ class ServerConfig(object):
 
     # === LOGS ===
     LOG_FOLDER: str = empty_str_cast(config_ini["logs"]["LOG_FOLDER"]) \
-        or os.path.join(os.path.dirname(os.path.abspath(__file__)), "logs")
+        or os.path.join(os.getcwd(), "logs")
 
     # === UPLOADS ===
     UPLOAD_PROVIDER: str = empty_str_cast(config_ini["uploads"]["UPLOAD_PROVIDER"]) \
         or "filesystem"
 
     UPLOAD_FOLDER: str = empty_str_cast(config_ini["uploads"]["UPLOAD_FOLDER"]) \
-        or os.path.join(os.path.dirname(os.path.abspath(__file__)), "uploads")
+        or os.path.join(os.getcwd(), "uploads")
 
     if UPLOAD_PROVIDER == "s3":
         AWS_ACCESS_KEY_ID: str = empty_str_cast(config_ini["uploads"]["AWS_ACCESS_KEY_ID"])

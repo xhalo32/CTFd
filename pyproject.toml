@@ -1,0 +1,17 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools"]
+
+[project]
+name = "CTFd"
+version = "3.7.3"
+
+[project.scripts]
+ctfd = "CTFd.__main__:main"
+
+[tool.setuptools]
+include-package-data = false
+package-dir = {"CTFd" = "CTFd"}
+
+[tool.setuptools.package-data]
+CTFd = ["**/*"]

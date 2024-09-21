@@ -72,7 +72,7 @@ def export_ctf():
     uploader.sync()
 
     upload_folder = os.path.join(
-        os.path.normpath(app.root_path), app.config.get("UPLOAD_FOLDER")
+        app.config.get("UPLOAD_FOLDER")
     )
     for root, _dirs, files in os.walk(upload_folder):
         for file in files:
@@ -489,7 +489,7 @@ def background_import_ctf(backup):
     backup.save(f.name)
 
     python = sys.executable  # Get path of Python interpreter
-    manage_py = Path(app.root_path).parent / "manage.py"  # Path to manage.py
+    manage_py = Path(app.root_path) / "manage.py"  # Path to manage.py
     subprocess.Popen(  # nosec B603
         [python, manage_py, "import_ctf", "--delete_import_on_finish", f.name]
     )

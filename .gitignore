@@ -65,6 +65,7 @@ target/
 .vscode/
 CTFd/static/uploads
 CTFd/uploads
+uploads
 .data/
 .ctfd_secret_key
 .*.swp
@@ -80,3 +81,7 @@ node_modules/
 
 # Flask Profiler files
 flask_profiler.sql
+
+# Nix
+.direnv
+result*

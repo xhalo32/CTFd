@@ -65,6 +65,7 @@ def upgrade(plugin_name=None, revision=None, lower="current"):
 
     # Check if the plugin has migraitons
     migrations_path = os.path.join(current_app.plugins_dir, plugin_name, "migrations")
+    print("Migrations plugin:", migrations_path)
     if os.path.isdir(migrations_path) is False:
         return
 

